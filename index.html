@@ -1,311 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Name — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f5f6f1;--panel:#fff;--line:#e6e5dd;--ink:#161a17;--ink-dim:#6b7169;
---accent:#1f7a5c;--soft:#e5f2ec;--gold:#e0a63c;--radius:18px;
---display:'Sora',sans-serif;--sans:'Inter',system-ui,sans-serif;}
-*{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;}
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px 60px;}
-nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;}
-.logo{font-family:var(--display);font-weight:800;font-size:1.25rem;}
-.logo span{color:var(--accent);}
-.nav-links{display:flex;gap:24px;list-style:none;margin:0;padding:0;align-items:center;}
-.nav-links a{color:var(--ink);text-decoration:none;font-size:.9rem;font-weight:500;}
-.login-link{background:none;border:none;color:var(--ink-dim);font-size:.82rem;cursor:pointer;text-decoration:underline;}
-.owner-pill{background:var(--soft);color:var(--accent);border-radius:999px;padding:6px 14px;font-size:.78rem;font-weight:700;display:none;}
-.owning .owner-pill{display:inline-block;}
-.hero{display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:center;padding:20px 0 64px;}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center;}
-.avatar{width:150px;height:150px;border-radius:50%;margin:0 auto 18px;overflow:hidden;position:relative;
-border:4px solid var(--soft);background:var(--soft);display:flex;align-items:center;justify-content:center;
-color:var(--accent);font-family:var(--display);font-size:2.2rem;font-weight:700;}
-.avatar img{width:100%;height:100%;object-fit:cover;}
-.owning .avatar{cursor:pointer;}
-.avatar .ph-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.5);color:#fff;align-items:center;justify-content:center;font-size:.75rem;}
-.owning .avatar:hover .ph-overlay{display:flex;}
-.owning [contenteditable="true"]{border-bottom:1px dashed var(--line);outline:none;}
-.card .role{color:var(--accent);font-size:.9rem;font-weight:600;margin:2px 0 4px;}
-.card .loc{color:var(--ink-dim);font-size:.82rem;margin:0 0 14px;}
-.greet{color:var(--gold);font-size:.95rem;font-weight:600;margin:0 0 8px;}
-h1{font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1.24;margin:0 0 16px;}
-h1 span{color:var(--accent);}
-.avail{display:flex;gap:8px;align-items:center;color:var(--ink-dim);font-size:.9rem;margin-bottom:20px;}
-.dot{width:8px;height:8px;border-radius:50%;background:#3fb87f;}
-.cta-btn{background:var(--accent);color:#fff;border:none;padding:11px 22px;border-radius:999px;font-size:.88rem;font-weight:600;text-decoration:none;display:inline-block;}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:60px;}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center;}
-.stat .num{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--accent);}
-.stat .label{color:var(--ink-dim);font-size:.8rem;margin-top:4px;}
-.section-title{text-align:center;margin-bottom:32px;}
-.section-title p{color:var(--ink-dim);font-size:.82rem;font-weight:700;margin:0 0 4px;letter-spacing:.02em;}
-.section-title h2{font-family:var(--display);font-size:1.6rem;margin:0;}
-.section-title h2 span{color:var(--accent);}
-.section-head{display:flex;justify-content:center;margin-bottom:32px;}
-.add-btn{display:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:1rem;cursor:pointer;}
-.owning .add-btn{display:inline-block;}
-.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:70px;}
-.skill,.cert{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;}
-.skill-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.skill-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:#fff;flex-shrink:0;}
-.skill-name{font-size:.88rem;font-weight:600;}
-.bar{height:6px;background:var(--soft);border-radius:999px;overflow:hidden;}
-.bar span{display:block;height:100%;background:var(--accent);border-radius:999px;}
-.pct{font-size:.76rem;color:var(--ink-dim);margin-top:5px;text-align:right;}
-.certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-bottom:20px;}
-.cert-issuer{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:6px;font-weight:700;}
-.cert-title{font-family:var(--display);font-weight:700;font-size:1rem;margin:0 0 4px;}
-.cert-date{color:var(--ink-dim);font-size:.78rem;margin-bottom:8px;}
-.cert-desc{color:var(--ink-dim);font-size:.85rem;}
-.empty{color:var(--ink-dim);font-size:.88rem;font-style:italic;text-align:center;grid-column:1/-1;}
-.del{display:none;position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink-dim);font-size:.7rem;cursor:pointer;}
-.owning .del{display:block;}
-footer{border-top:1px solid var(--line);padding-top:22px;text-align:center;color:var(--ink-dim);font-size:.8rem;}
-.login-back{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:50;}
-.login-back.show{display:flex;}
-.login-box{background:var(--panel);border-radius:var(--radius);padding:28px;width:280px;}
-.login-box h3{font-family:var(--display);margin:0 0 16px;}
-.login-box input{width:100%;padding:9px 11px;margin-bottom:10px;border:1px solid var(--line);border-radius:8px;font-size:.9rem;}
-.login-box .err{color:#c0392b;font-size:.8rem;min-height:16px;margin-bottom:6px;}
-@media(max-width:900px){.hero{grid-template-columns:1fr;}.stats{grid-template-columns:repeat(2,1fr);}.skills{grid-template-columns:repeat(2,1fr);}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Personal</title>
 </head>
 <body>
-<div class="wrap" id="app">
-  <nav>
-    <div class="logo">Your<span>Name</span></div>
-    <ul class="nav-links">
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#certs">Certificates</a></li>
-      <li><span class="owner-pill">Editing as owner</span></li>
-      <li><button class="login-link" id="loginLink">Owner login</button></li>
-    </ul>
-  </nav>
+    <header>
+        <div class="logo">
+            <img src="img1.jpg" alt="">
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="#" style="color: #7c99ff;">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#contact">Contacs</a></li>
+                <li><span class="owner-pill" id="ownerPill">Editing as owner</span></li>
+                <li><button class="login-link" id="loginLink">Owner login</button></li>
+            </ul>
+        </div>
+    </header>
+   <!--section1 start-->
+    <section class="section1">
+        <div class="half1 reveal">
+            <h3>This is me</h3>
+            <h1>Tonoy Saha</h1>
+            <p>You will begin to realise why this exercise is called the Dickens Pattern with reference to the ghost showing Scrooge some different futures.</p>
+            <input type="button" value="DISCOVER NOW">
+        </div>
+        <div class="half2 reveal">
+            <img src="photo_2026-07-21_13-14-48-modified.png" alt="man">
+        </div>
+    </section>
+      <!--section1 end-->
 
-  <section class="hero">
-    <div class="card">
-      <div class="avatar" id="avatar"><span id="avInit">Y</span><div class="ph-overlay">Change photo</div></div>
-      <h3 id="fName" contenteditable="false">Your Name</h3>
-      <p class="role" id="fRole" contenteditable="false">CSE Student &amp; Developer</p>
-      <p class="loc" id="fLoc" contenteditable="false">📍 Dhaka, BD</p>
-    </div>
-    <div>
-      <p class="greet" id="fGreet" contenteditable="false">Hello There! 👋</p>
-      <h1>I'm <span id="fHlName" contenteditable="false">YOUR NAME</span>, <span id="fHlMid" contenteditable="false">A CSE STUDENT BUILDING SOFTWARE WITH</span> <span id="fHlHl" contenteditable="false">REAL-WORLD IMPACT</span>.</h1>
-      <div class="avail"><span class="dot"></span><span id="fAvail" contenteditable="false">Open to internships &amp; freelance projects</span></div>
-      <a class="cta-btn" id="fCv" href="#">Download CV ⬇</a>
-    </div>
-  </section>
+      <!--section2 start-->
+     <section class="section2">
+        <div class="half3 reveal">
+            <img src="details.png" alt="details">
+        </div>
 
-  <div class="stats" id="statsGrid"></div>
+        <div class="half4 reveal">
+            <h3>About Me</h3>
 
-  <section id="skills">
-    <div class="section-title"><p>PRO SKILLS</p><h2>Let's Explore <span>My Skills</span></h2></div>
-    <div class="section-head"><button class="add-btn" id="addSkill">+</button></div>
-    <div class="skills" id="skillsGrid"></div>
-  </section>
+            <h1>Personal Details</h1>
 
-  <section id="certs">
-    <div class="section-title"><p>CREDENTIALS</p><h2>My <span>Certificates</span></h2></div>
-    <div class="section-head"><button class="add-btn" id="addCert">+</button></div>
-    <div class="certs" id="certsGrid"></div>
-  </section>
+            <p>Here, I focus on a range of items and features that we use in life without giving them a second thought. such as Coca Cola. Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+            <input type="button" value="VIEW MORE DETAILS">
+        </div>
 
-  <input type="file" id="photoInput" accept="image/*" style="display:none">
-  <input type="file" id="certImageInput" accept="image/*" style="display:none">
-  <footer>© <span id="yr"></span> Your Name — Built with HTML, CSS &amp; JS + Firebase</footer>
-</div>
+     </section>
+        <!--section2 end-->
 
-<div class="login-back" id="loginBack">
-  <div class="login-box">
+        <!--skills start-->
+    <section class="skillsSection" id="skills">
+        <div class="firsttext reveal">
+            <h1>My Skills</h1>
+            <p>The tools and technologies I build with.</p>
+        </div>
+        <div class="section-head"><button class="add-btn" id="addSkill">+</button></div>
+        <div class="skillsGrid" id="skillsGrid"></div>
+    </section>
+        <!--skills end-->
+
+        <!--section3 start (Projects, was Services)-->
+
+     <section class="section3" id="projects">
+        <div class="firsttext reveal">
+            <h1>My Projects</h1>
+            <p>At about this time of year, some months after New Year's resolutions have been made and kept, or made and neglected.</p>
+        </div>
+        <div class="section-head"><button class="add-btn" id="addProject">+</button></div>
+        <div class="service">
+            <div class="proj-grid" id="projectsGrid"></div>
+        </div>
+     </section>
+     <!--section3 end-->
+
+     <!--section5 start (Achievements, was Featured Projects)-->
+     <section class="section5" id="achievements">
+        <div class="txt reveal">
+            <h1>Achievements</h1>
+            <p>Certificates and milestones I've earned along the way.</p>
+        </div>
+        <div class="section-head"><button class="add-btn" id="addCert">+</button></div>
+        <div class="imgg" id="certsGrid"></div>
+     </section>
+     <!--section5 end-->
+
+     <!--contact start-->
+     <section class="section6" id="contact">
+        <div class="txt2 reveal">
+            <h1>Get In Touch</h1>
+            <p>Have a project, an opportunity, or just want to say hi? Reach out.</p>
+        </div>
+        <div class="contact-wrap reveal">
+            <a class="contact-item" href="mailto:your.email@example.com">
+                <i class="bi bi-envelope"></i>
+                <div><h3>Email</h3><p>your.email@example.com</p></div>
+            </a>
+            <a class="contact-item" href="tel:+8800000000">
+                <i class="bi bi-telephone"></i>
+                <div><h3>Phone</h3><p>+880 00 000 0000</p></div>
+            </a>
+            <a class="contact-item" href="https://github.com/tonoy-saha" target="_blank">
+                <i class="bi bi-github"></i>
+                <div><h3>GitHub</h3><p>github.com/tonoy-saha</p></div>
+            </a>
+            <a class="contact-item" href="https://linkedin.com" target="_blank">
+                <i class="bi bi-linkedin"></i>
+                <div><h3>LinkedIn</h3><p>Connect with me</p></div>
+            </a>
+        </div>
+     </section>
+     <!--contact end-->
+     <!--Footer start-->
+     <section class="footer">
+         <div class="foot">
+         <div class="foot1">
+            <h3>About Me</h3>
+            <p style="width: 480px;">We have tested a number of registry fix and clean utilities and present our top 3 list on our site for your convenience.</p>
+            <p>Copyright ©2025 All rights reserved |Tonoy Saha</p>
+         </div>
+         <div class="foot1">
+            <h3>Newsletter</h3>
+            <p>Stay updated with our latest trends</p>
+            <input type="text" placeholder="Enter Your E-mail Address">
+            <button>send</button>
+         </div>
+         <div class="foot1">
+            <h3>Follow Me</h3>
+            <p>Let us be social</p>
+            <i class="bi bi-facebook"></i>
+            <i class="bi bi-instagram"></i>
+            <i class="bi bi-twitter"></i>
+            <i class="bi bi-youtube"></i>
+
+         </div>
+         </div>
+
+     </section>
+     <!--Footer end-->
+
+<!-- LOGIN MODAL -->
+<div class="modal-back" id="loginBack">
+  <div class="modal">
     <h3>Owner login</h3>
     <div class="err" id="loginErr"></div>
-    <input type="email" id="loginEmail" placeholder="Email">
+    <label>Email</label>
+    <input type="text" id="loginEmail" placeholder="Email">
+    <label>Password</label>
     <input type="password" id="loginPass" placeholder="Password">
-    <button class="cta-btn" id="loginSubmit" style="width:100%;border:none;cursor:pointer;">Sign in</button>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="loginCancel">Cancel</button>
+      <button class="btn-primary" id="loginSubmit">Sign in</button>
+    </div>
   </div>
 </div>
 
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, onSnapshot, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<!-- SKILL MODAL -->
+<div class="modal-back" id="skillModalBack">
+  <div class="modal">
+    <h3>Add skill</h3>
+    <label>Skill name</label>
+    <input type="text" id="skName" placeholder="e.g. JavaScript, Firebase, Python">
+    <div class="hint">Type a known tech name and its logo is added automatically. Otherwise, upload a small image below.</div>
+    <label>Logo image (optional — used if no automatic match)</label>
+    <input type="file" id="skImage" accept="image/*">
+    <div class="modal-actions">
+      <button class="btn-ghost" id="skCancel">Cancel</button>
+      <button class="btn-primary" id="skSave">Save</button>
+    </div>
+  </div>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDdZBseMjk0oyLp_R_vLrQEzmfI_jdtzlA",
-  authDomain: "tonoy-portfolio.firebaseapp.com",
-  projectId: "tonoy-portfolio",
-  storageBucket: "tonoy-portfolio.firebasestorage.app",
-  messagingSenderId: "317094529805",
-  appId: "1:317094529805:web:15bdb13a4db2a6494d7e44"
-};
-// ---- 2. PASTE YOUR UID FROM FIREBASE AUTH > USERS HERE ----
-const OWNER_UID = "VLmwbWuSs4S0uQfPzZ95oksjbft2";
+<!-- PROJECT MODAL -->
+<div class="modal-back" id="projectModalBack">
+  <div class="modal">
+    <h3>Add project</h3>
+    <label>Icon (Bootstrap Icons class name)</label>
+    <input type="text" id="prIcon" placeholder="e.g. bi-browser-chrome" value="bi-code-slash">
+    <div class="hint">Browse names at icons.getbootstrap.com — just the class, e.g. bi-phone</div>
+    <label>Title</label>
+    <input type="text" id="prTitle" placeholder="e.g. Khata — Ledger App">
+    <label>Description</label>
+    <textarea id="prDesc" placeholder="A short line about the project"></textarea>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="prCancel">Cancel</button>
+      <button class="btn-primary" id="prSave">Save</button>
+    </div>
+  </div>
+</div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+<!-- ACHIEVEMENT / CERT MODAL -->
+<div class="modal-back" id="certModalBack">
+  <div class="modal">
+    <h3>Add certificate</h3>
+    <label>Title</label>
+    <input type="text" id="ceTitle" placeholder="e.g. AWS Cloud Practitioner">
+    <label>Issued by</label>
+    <input type="text" id="ceIssuer" placeholder="e.g. Amazon Web Services">
+    <label>Date</label>
+    <input type="text" id="ceDate" placeholder="e.g. March 2026">
+    <label>About this certificate</label>
+    <textarea id="ceDesc" placeholder="What it covers or why it matters"></textarea>
+    <label>Google Drive image link (optional)</label>
+    <input type="text" id="ceDrive" placeholder="Paste the Drive share link here">
+    <div class="hint">Make sure the file's sharing is set to "Anyone with the link".</div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="ceCancel">Cancel</button>
+      <button class="btn-primary" id="ceSave">Save</button>
+    </div>
+  </div>
+</div>
 
-let owning = false;
-const appEl = document.getElementById('app');
-document.getElementById('yr').textContent = new Date().getFullYear();
-
-const defaultProfile = {
-  name:"Your Name", role:"CSE Student & Developer", location:"Dhaka, BD",
-  greet:"Hello There! 👋", hlName:"YOUR NAME", hlMid:"A CSE STUDENT BUILDING SOFTWARE WITH", hlHl:"REAL-WORLD IMPACT",
-  avail:"Open to internships & freelance projects", cvUrl:"#", photo:null,
-  stats:[{num:"2+",label:"Years Coding"},{num:"10+",label:"Projects Built"},{num:"6+",label:"Certificates"},{num:"3+",label:"Group Projects"}]
-};
-let profile = {...defaultProfile};
-let skills = [];
-let certs = [];
-
-function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
-
-function bindText(id, key){
-  const el = document.getElementById(id);
-  el.textContent = profile[key];
-  el.setAttribute('contenteditable', owning ? 'true' : 'false');
-  el.onblur = owning ? ()=>{ profile[key] = el.textContent.trim(); saveProfile(); } : null;
-}
-
-function renderProfile(){
-  bindText('fName','name'); bindText('fRole','role'); bindText('fLoc','location');
-  bindText('fGreet','greet'); bindText('fHlName','hlName'); bindText('fHlMid','hlMid'); bindText('fHlHl','hlHl');
-  bindText('fAvail','avail');
-  document.getElementById('fCv').href = profile.cvUrl || '#';
-  const av = document.getElementById('avatar');
-  av.querySelectorAll('img').forEach(n=>n.remove());
-  document.getElementById('avInit').style.display = profile.photo ? 'none' : 'block';
-  if(profile.photo){ const img=document.createElement('img'); img.src=profile.photo; av.prepend(img); }
-
-  const sg = document.getElementById('statsGrid'); sg.innerHTML='';
-  profile.stats.forEach((s,i)=>{
-    const d=document.createElement('div'); d.className='stat';
-    d.innerHTML = `<div class="num" data-i="${i}" contenteditable="${owning}">${esc(s.num)}</div><div class="label" data-i="${i}" contenteditable="${owning}">${esc(s.label)}</div>`;
-    sg.appendChild(d);
-  });
-  if(owning) sg.querySelectorAll('[contenteditable="true"]').forEach(el=>{
-    el.onblur = ()=>{
-      const i = el.dataset.i;
-      if(el.classList.contains('num')) profile.stats[i].num = el.textContent.trim();
-      else profile.stats[i].label = el.textContent.trim();
-      saveProfile();
-    };
-  });
-}
-
-function renderSkills(){
-  const kg = document.getElementById('skillsGrid'); kg.innerHTML='';
-  if(skills.length===0) kg.innerHTML = '<p class="empty">No skills added yet.</p>';
-  skills.forEach(s=>{
-    const d=document.createElement('div'); d.className='skill';
-    d.innerHTML = `<button class="del" data-id="${s.id}">×</button>
-      <div class="skill-top"><div class="skill-icon" style="background:${s.color}">${esc(s.icon)}</div><div class="skill-name">${esc(s.name)}</div></div>
-      <div class="bar"><span style="width:${s.pct}%"></span></div><div class="pct">${s.pct}%</div>`;
-    d.querySelector('.del').onclick = ()=> deleteDoc(doc(db,'skills',s.id));
-    kg.appendChild(d);
-  });
-}
-
-function renderCerts(){
-  const cg = document.getElementById('certsGrid'); cg.innerHTML='';
-  if(certs.length===0) cg.innerHTML = '<p class="empty">No certificates added yet.</p>';
-  certs.forEach(c=>{
-    const d=document.createElement('div'); d.className='cert';
-    const img = c.image ? `<img src="${c.image}" alt="${esc(c.title)}" style="width:100%;border-radius:8px;margin-bottom:10px;display:block;">` : '';
-    d.innerHTML = `<button class="del" data-id="${c.id}">×</button>${img}
-      <div class="cert-issuer">${esc(c.issuer)}</div><div class="cert-title">${esc(c.title)}</div>
-      <div class="cert-date">${esc(c.date)}</div><div class="cert-desc">${esc(c.desc)}</div>`;
-    d.querySelector('.del').onclick = ()=> deleteDoc(doc(db,'certs',c.id));
-    cg.appendChild(d);
-  });
-}
-
-async function saveProfile(){ await setDoc(doc(db,'site','profile'), profile); }
-
-// Live listeners — every visitor sees updates instantly
-onSnapshot(doc(db,'site','profile'), snap=>{ if(snap.exists()) profile = snap.data(); renderProfile(); });
-onSnapshot(query(collection(db,'skills'), orderBy('order','asc')), snap=>{
-  skills = snap.docs.map(d=>({id:d.id, ...d.data()})); renderSkills();
-});
-onSnapshot(query(collection(db,'certs'), orderBy('order','asc')), snap=>{
-  certs = snap.docs.map(d=>({id:d.id, ...d.data()})); renderCerts();
-});
-
-// Auth
-onAuthStateChanged(auth, user=>{
-  owning = !!(user && user.uid === OWNER_UID);
-  appEl.classList.toggle('owning', owning);
-  document.getElementById('loginLink').textContent = owning ? 'Log out' : 'Owner login';
-  renderProfile(); renderSkills(); renderCerts();
-});
-
-document.getElementById('loginLink').onclick = ()=>{
-  if(owning){ signOut(auth); return; }
-  document.getElementById('loginBack').classList.add('show');
-};
-document.getElementById('loginBack').addEventListener('click', e=>{ if(e.target.id==='loginBack') e.target.classList.remove('show'); });
-document.getElementById('loginSubmit').onclick = async ()=>{
-  const email = document.getElementById('loginEmail').value;
-  const pass = document.getElementById('loginPass').value;
-  try{
-    await signInWithEmailAndPassword(auth, email, pass);
-    document.getElementById('loginBack').classList.remove('show');
-    document.getElementById('loginErr').textContent = '';
-  }catch(e){ document.getElementById('loginErr').textContent = 'Wrong email or password.'; }
-};
-
-document.getElementById('avatar').onclick = ()=>{ if(owning) document.getElementById('photoInput').click(); };
-document.getElementById('photoInput').onchange = e=>{
-  const f = e.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = ()=>{ profile.photo = r.result; renderProfile(); saveProfile(); };
-  r.readAsDataURL(f);
-};
-
-document.getElementById('addSkill').onclick = async ()=>{
-  const name = prompt('Skill name?'); if(!name) return;
-  const pct = Math.max(0,Math.min(100, parseInt(prompt('Proficiency % (0-100)?','70')) || 70));
-  const icon = prompt('Short icon label (e.g. JS, Py)?', name.slice(0,3)) || name.slice(0,3);
-  const colors = ['#1f7a5c','#3178c6','#e0a63c','#e34c26','#47a248','#0db7ed'];
-  await addDoc(collection(db,'skills'), {name, icon, pct, color: colors[skills.length % colors.length], order: Date.now()});
-};
-document.getElementById('addCert').onclick = async ()=>{
-  const title = prompt('Certificate title?'); if(!title) return;
-  const issuer = prompt('Issued by?','') || '';
-  const date = prompt('Date?','') || '';
-  const desc = prompt('Short note about it?','') || '';
-  let image = null;
-  if(confirm('Add an image of this certificate?')){
-    const file = await new Promise(res=>{
-      const input = document.getElementById('certImageInput');
-      input.value = '';
-      input.onchange = ()=> res(input.files[0] || null);
-      input.click();
-    });
-    if(file){
-      if(file.size > 700000){
-        alert('That image is a bit large for this setup (keep it under ~700KB). Try a smaller or more compressed version — the certificate will be saved without an image for now.');
-      } else {
-        image = await new Promise(res=>{
-          const r = new FileReader();
-          r.onload = ()=> res(r.result);
-          r.readAsDataURL(file);
-        });
-      }
-    }
-  }
-  await addDoc(collection(db,'certs'), {title, issuer, date, desc, image, order: Date.now()});
-};
-</script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
