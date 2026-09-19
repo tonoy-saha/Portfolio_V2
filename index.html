@@ -119,6 +119,7 @@ footer{border-top:1px solid var(--line);padding-top:22px;text-align:center;color
   </section>
 
   <input type="file" id="photoInput" accept="image/*" style="display:none">
+  <input type="file" id="certImageInput" accept="image/*" style="display:none">
   <footer>© <span id="yr"></span> Your Name — Built with HTML, CSS &amp; JS + Firebase</footer>
 </div>
 
@@ -220,7 +221,8 @@ function renderCerts(){
   if(certs.length===0) cg.innerHTML = '<p class="empty">No certificates added yet.</p>';
   certs.forEach(c=>{
     const d=document.createElement('div'); d.className='cert';
-    d.innerHTML = `<button class="del" data-id="${c.id}">×</button>
+    const img = c.image ? `<img src="${c.image}" alt="${esc(c.title)}" style="width:100%;border-radius:8px;margin-bottom:10px;display:block;">` : '';
+    d.innerHTML = `<button class="del" data-id="${c.id}">×</button>${img}
       <div class="cert-issuer">${esc(c.issuer)}</div><div class="cert-title">${esc(c.title)}</div>
       <div class="cert-date">${esc(c.date)}</div><div class="cert-desc">${esc(c.desc)}</div>`;
     d.querySelector('.del').onclick = ()=> deleteDoc(doc(db,'certs',c.id));
@@ -282,7 +284,27 @@ document.getElementById('addCert').onclick = async ()=>{
   const issuer = prompt('Issued by?','') || '';
   const date = prompt('Date?','') || '';
   const desc = prompt('Short note about it?','') || '';
-  await addDoc(collection(db,'certs'), {title, issuer, date, desc, order: Date.now()});
+  let image = null;
+  if(confirm('Add an image of this certificate?')){
+    const file = await new Promise(res=>{
+      const input = document.getElementById('certImageInput');
+      input.value = '';
+      input.onchange = ()=> res(input.files[0] || null);
+      input.click();
+    });
+    if(file){
+      if(file.size > 700000){
+        alert('That image is a bit large for this setup (keep it under ~700KB). Try a smaller or more compressed version — the certificate will be saved without an image for now.');
+      } else {
+        image = await new Promise(res=>{
+          const r = new FileReader();
+          r.onload = ()=> res(r.result);
+          r.readAsDataURL(file);
+        });
+      }
+    }
+  }
+  await addDoc(collection(db,'certs'), {title, issuer, date, desc, image, order: Date.now()});
 };
 </script>
 </body>
