@@ -199,11 +199,13 @@ Object.keys(IMG_TARGETS).forEach(key=>{
     const img = document.getElementById(IMG_TARGETS[key]);
     if(d.image) img.src = d.image;
     if(d.width){ img.style.width = d.width+'px'; img.style.height = 'auto'; }
+    if(d.offsetX){ img.dataset.offsetX = d.offsetX; img.style.transform = `translateX(${d.offsetX}px)`; }
   });
 });
 document.querySelectorAll('.edit-img-wrap').forEach(wrap=>{
   const key = wrap.dataset.key;
   const img = wrap.querySelector('img');
+  let dragged = false;
 
   const handle = document.createElement('div');
   handle.className = 'resize-handle';
@@ -230,8 +232,38 @@ document.querySelectorAll('.edit-img-wrap').forEach(wrap=>{
     document.addEventListener('pointerup', onUp);
   });
 
+  img.addEventListener('pointerdown', e=>{
+    if(!owning) return;
+    e.stopPropagation();
+    const startX = e.clientX;
+    const baseOffset = parseFloat(img.dataset.offsetX || '0');
+    dragged = false;
+    img.setPointerCapture(e.pointerId);
+    img.style.cursor = 'grabbing';
+    function onMove(ev){
+      const dx = ev.clientX - startX;
+      if(Math.abs(dx) > 4) dragged = true;
+      if(dragged){
+        const newOffset = baseOffset + dx;
+        img.style.transform = `translateX(${newOffset}px)`;
+        img.dataset.offsetX = newOffset;
+      }
+    }
+    function onUp(){
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      img.style.cursor = 'grab';
+      if(dragged){
+        siteSetDoc(siteDoc(db,'site',key), {offsetX: parseFloat(img.dataset.offsetX||'0')}, {merge:true});
+      }
+    }
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+
   wrap.addEventListener('click', ()=>{
     if(!owning) return;
+    if(dragged){ dragged = false; return; }
     const input = document.getElementById('siteImageInput');
     input.value = '';
     input.onchange = async ()=>{

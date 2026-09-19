@@ -663,3 +663,4 @@ body.owning [data-tkey]:hover{ border-bottom-color:#7c99ff; }
   box-shadow:0 2px 6px rgba(0,0,0,.3); z-index:6; touch-action:none;
 }
 body.owning .edit-img-wrap:hover .resize-handle{ display:block; }
+body.owning .edit-img-wrap img{ cursor: grab; }
