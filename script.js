@@ -189,3 +189,29 @@ const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
 }, {threshold:0.15});
 document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+/* ---------- editable site images (logo / hero / about) ---------- */
+import { doc as siteDoc, setDoc as siteSetDoc, onSnapshot as siteOnSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const IMG_TARGETS = { logo:'logoImg', hero:'heroImg', about:'aboutImg' };
+Object.keys(IMG_TARGETS).forEach(key=>{
+  siteOnSnapshot(siteDoc(db,'site',key), snap=>{
+    if(snap.exists() && snap.data().image){
+      document.getElementById(IMG_TARGETS[key]).src = snap.data().image;
+    }
+  });
+});
+document.querySelectorAll('.edit-img-wrap').forEach(wrap=>{
+  wrap.addEventListener('click', ()=>{
+    if(!owning) return;
+    const key = wrap.dataset.key;
+    const input = document.getElementById('siteImageInput');
+    input.value = '';
+    input.onchange = async ()=>{
+      const file = input.files[0]; if(!file) return;
+      if(file.size > 800000){ alert('Please use a smaller image (under ~800KB) — try compressing it first.'); return; }
+      const base64 = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); });
+      await siteSetDoc(siteDoc(db,'site',key), {image: base64});
+    };
+    input.click();
+  });
+});

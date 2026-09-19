@@ -652,3 +652,13 @@ body.owning .imgg .cert-card .del{ display:block; }
 .btn-ghost{ background:none; border:1px solid #ddd; color:#666; border-radius:6px; padding:9px 18px; font-size:13px; cursor:pointer; }
 
 @keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+
+/* editable site images (logo / hero / about) */
+.edit-img-wrap{ position:relative; }
+.edit-img-wrap img{ display:block; }
+.img-overlay{
+  display:none; position:absolute; inset:0; background:rgba(0,0,0,.55); color:#fff;
+  align-items:center; justify-content:center; font-size:12px; text-align:center; cursor:pointer;
+}
+body.owning .edit-img-wrap{ cursor:pointer; }
+body.owning .edit-img-wrap:hover .img-overlay{ display:flex; }

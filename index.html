@@ -10,8 +10,9 @@
 </head>
 <body>
     <header>
-        <div class="logo">
-            <img src="img1.jpg" alt="">
+        <div class="logo edit-img-wrap" data-key="logo">
+            <img id="logoImg" src="img1.jpg" alt="">
+            <div class="img-overlay">Change logo</div>
         </div>
         <div class="navbar">
             <ul>
@@ -34,16 +35,18 @@
             <p>You will begin to realise why this exercise is called the Dickens Pattern with reference to the ghost showing Scrooge some different futures.</p>
             <input type="button" value="DISCOVER NOW">
         </div>
-        <div class="half2 reveal">
-            <img src="photo_2026-07-21_13-14-48-modified.png" alt="man">
+        <div class="half2 reveal edit-img-wrap" data-key="hero">
+            <img id="heroImg" src="photo_2026-07-21_13-14-48-modified.png" alt="man">
+            <div class="img-overlay">Change photo</div>
         </div>
     </section>
       <!--section1 end-->
 
       <!--section2 start-->
      <section class="section2">
-        <div class="half3 reveal">
-            <img src="details.png" alt="details">
+        <div class="half3 reveal edit-img-wrap" data-key="about">
+            <img id="aboutImg" src="details.png" alt="details">
+            <div class="img-overlay">Change photo</div>
         </div>
 
         <div class="half4 reveal">
@@ -219,6 +222,8 @@
     </div>
   </div>
 </div>
+
+<input type="file" id="siteImageInput" accept="image/*" style="display:none">
 
 <script type="module" src="script.js"></script>
 </body>
