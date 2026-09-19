@@ -64,8 +64,9 @@ function renderProjects(){
   grid.innerHTML = projects.length===0 ? '<p class="hint">No projects added yet.</p>' : '';
   projects.forEach(p=>{
     const el = document.createElement('div'); el.className='proj-card';
-    el.innerHTML = `<button class="del" data-id="${p.id}">×</button>
-      <i class="bi ${esc(p.icon||'bi-code-slash')}"></i>
+    const thumb = p.image ? `<img src="${p.image}" alt="${esc(p.title)}">` : '';
+    const icon = p.image ? '' : `<i class="bi ${esc(p.icon||'bi-code-slash')}"></i>`;
+    el.innerHTML = `<button class="del" data-id="${p.id}">×</button>${thumb}${icon}
       <h1>${esc(p.title)}</h1><p>${esc(p.desc)}</p>`;
     el.querySelector('.del').onclick = ()=> deleteDoc(doc(db,'projects',p.id));
     grid.appendChild(el);
@@ -148,6 +149,7 @@ document.getElementById('skSave').onclick = async ()=>{
 document.getElementById('addProject').onclick = ()=>{
   document.getElementById('prIcon').value='bi-code-slash';
   document.getElementById('prTitle').value=''; document.getElementById('prDesc').value='';
+  document.getElementById('prImage').value='';
   document.getElementById('projectModalBack').classList.add('show');
 };
 document.getElementById('prCancel').onclick = ()=> document.getElementById('projectModalBack').classList.remove('show');
@@ -156,7 +158,13 @@ document.getElementById('prSave').onclick = async ()=>{
   const title = document.getElementById('prTitle').value.trim(); if(!title) return;
   const icon = document.getElementById('prIcon').value.trim() || 'bi-code-slash';
   const desc = document.getElementById('prDesc').value.trim();
-  await addDoc(collection(db,'projects'), {title, icon, desc, order: Date.now()});
+  const file = document.getElementById('prImage').files[0];
+  let image = null;
+  if(file){
+    if(file.size > 700000){ alert('That image is a bit large (keep it under ~700KB). Saving without the image — try a smaller file.'); }
+    else { image = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
+  }
+  await addDoc(collection(db,'projects'), {title, icon, desc, image, order: Date.now()});
   document.getElementById('projectModalBack').classList.remove('show');
 };
 
