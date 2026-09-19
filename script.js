@@ -194,15 +194,44 @@ import { doc as siteDoc, setDoc as siteSetDoc, onSnapshot as siteOnSnapshot } fr
 const IMG_TARGETS = { logo:'logoImg', hero:'heroImg', about:'aboutImg' };
 Object.keys(IMG_TARGETS).forEach(key=>{
   siteOnSnapshot(siteDoc(db,'site',key), snap=>{
-    if(snap.exists() && snap.data().image){
-      document.getElementById(IMG_TARGETS[key]).src = snap.data().image;
-    }
+    if(!snap.exists()) return;
+    const d = snap.data();
+    const img = document.getElementById(IMG_TARGETS[key]);
+    if(d.image) img.src = d.image;
+    if(d.width){ img.style.width = d.width+'px'; img.style.height = 'auto'; }
   });
 });
 document.querySelectorAll('.edit-img-wrap').forEach(wrap=>{
+  const key = wrap.dataset.key;
+  const img = wrap.querySelector('img');
+
+  const handle = document.createElement('div');
+  handle.className = 'resize-handle';
+  handle.addEventListener('click', e=> e.stopPropagation());
+  wrap.appendChild(handle);
+
+  handle.addEventListener('pointerdown', e=>{
+    e.stopPropagation(); e.preventDefault();
+    if(!owning) return;
+    const startX = e.clientX;
+    const startW = img.offsetWidth;
+    handle.setPointerCapture(e.pointerId);
+    function onMove(ev){
+      const newW = Math.max(40, startW + (ev.clientX - startX));
+      img.style.width = newW + 'px';
+      img.style.height = 'auto';
+    }
+    function onUp(){
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      siteSetDoc(siteDoc(db,'site',key), {width: img.offsetWidth}, {merge:true});
+    }
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+
   wrap.addEventListener('click', ()=>{
     if(!owning) return;
-    const key = wrap.dataset.key;
     const input = document.getElementById('siteImageInput');
     input.value = '';
     input.onchange = async ()=>{

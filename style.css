@@ -655,3 +655,11 @@ body.owning .edit-img-wrap:hover .img-overlay{ display:flex; }
 /* editable text */
 body.owning [data-tkey]{ outline:none; border-bottom:1px dashed rgba(0,0,0,.25); cursor:text; }
 body.owning [data-tkey]:hover{ border-bottom-color:#7c99ff; }
+
+/* image resize handle */
+.resize-handle{
+  display:none; position:absolute; right:-7px; bottom:-7px; width:16px; height:16px;
+  background:#7c99ff; border:2px solid #fff; border-radius:50%; cursor:nwse-resize;
+  box-shadow:0 2px 6px rgba(0,0,0,.3); z-index:6; touch-action:none;
+}
+body.owning .edit-img-wrap:hover .resize-handle{ display:block; }
