@@ -72,21 +72,13 @@ function renderProjects(){
   });
 }
 
-function driveThumb(link){
-  if(!link) return null;
-  const m = link.match(/\/d\/([a-zA-Z0-9_-]+)/) || link.match(/id=([a-zA-Z0-9_-]+)/);
-  if(!m) return null;
-  return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
-}
-
 function renderCerts(){
   const grid = document.getElementById('certsGrid');
   grid.innerHTML = certs.length===0 ? '<p class="empty-state">No certificates added yet.</p>' : '';
   certs.forEach(c=>{
     const el = document.createElement('div'); el.className='cert-card';
-    const thumb = driveThumb(c.drive);
-    const figure = thumb
-      ? `<figure><img src="${thumb}" alt="${esc(c.title)}"></figure>`
+    const figure = c.image
+      ? `<figure><img src="${c.image}" alt="${esc(c.title)}"></figure>`
       : `<figure class="no-img">No image</figure>`;
     el.innerHTML = `<button class="del" data-id="${c.id}">×</button>${figure}
       <h1>${esc(c.title)}</h1><p>${esc(c.issuer)}${c.date?' · '+esc(c.date):''}</p>`;
@@ -111,6 +103,7 @@ onAuthStateChanged(auth, user=>{
   owning = !!(user && user.uid === OWNER_UID);
   document.body.classList.toggle('owning', owning);
   document.getElementById('loginLink').textContent = owning ? 'Log out' : 'Owner login';
+  applyTextEditability();
 });
 
 document.getElementById('loginLink').onclick = ()=>{
@@ -169,7 +162,8 @@ document.getElementById('prSave').onclick = async ()=>{
 
 /* ---------- certificate form ---------- */
 document.getElementById('addCert').onclick = ()=>{
-  ['ceTitle','ceIssuer','ceDate','ceDesc','ceDrive'].forEach(id=> document.getElementById(id).value='');
+  ['ceTitle','ceIssuer','ceDate','ceDesc'].forEach(id=> document.getElementById(id).value='');
+  document.getElementById('ceImage').value='';
   document.getElementById('certModalBack').classList.add('show');
 };
 document.getElementById('ceCancel').onclick = ()=> document.getElementById('certModalBack').classList.remove('show');
@@ -179,8 +173,13 @@ document.getElementById('ceSave').onclick = async ()=>{
   const issuer = document.getElementById('ceIssuer').value.trim();
   const date = document.getElementById('ceDate').value.trim();
   const desc = document.getElementById('ceDesc').value.trim();
-  const drive = document.getElementById('ceDrive').value.trim();
-  await addDoc(collection(db,'certs'), {title, issuer, date, desc, drive, order: Date.now()});
+  const file = document.getElementById('ceImage').files[0];
+  let image = null;
+  if(file){
+    if(file.size > 700000){ alert('That image is a bit large (keep it under ~700KB). Saving without the image — try a smaller file.'); }
+    else { image = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
+  }
+  await addDoc(collection(db,'certs'), {title, issuer, date, desc, image, order: Date.now()});
   document.getElementById('certModalBack').classList.remove('show');
 };
 
@@ -213,5 +212,34 @@ document.querySelectorAll('.edit-img-wrap').forEach(wrap=>{
       await siteSetDoc(siteDoc(db,'site',key), {image: base64});
     };
     input.click();
+  });
+});
+
+/* ---------- editable text ---------- */
+const textEls = Array.from(document.querySelectorAll('[data-tkey]'));
+
+siteOnSnapshot(siteDoc(db,'site','texts'), snap=>{
+  if(!snap.exists()) return;
+  const data = snap.data();
+  textEls.forEach(el=>{
+    const key = el.dataset.tkey;
+    if(data[key] !== undefined && document.activeElement !== el){
+      el.textContent = data[key];
+    }
+  });
+});
+
+function applyTextEditability(){
+  textEls.forEach(el=>{
+    el.setAttribute('contenteditable', owning ? 'true' : 'false');
+  });
+}
+applyTextEditability();
+
+textEls.forEach(el=>{
+  el.addEventListener('blur', async ()=>{
+    if(!owning) return;
+    const key = el.dataset.tkey;
+    await siteSetDoc(siteDoc(db,'site','texts'), {[key]: el.textContent.trim()}, {merge:true});
   });
 });
