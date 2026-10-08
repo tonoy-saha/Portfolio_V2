@@ -1,6 +1,6 @@
 /* ===================================================================
    Floating-island theme
-   White page  ->  every section is a soft, colored island that floats
+   Grey page  ->  every section is a white island that lights up in its own color on hover that floats
    above it (rounded corners + layered shadow). Cards inside each island
    are white so the details pop against the island color.
    =================================================================== */
@@ -10,17 +10,10 @@
     --ink:#1b2250;
     --ink-soft:rgba(27,34,80,0.68);
 
-    /* one tint per island, all from the same cool family as the accent */
-    --island-hero:     linear-gradient(135deg,#e4ebff 0%,#d2dcff 100%);
-    --island-about:    linear-gradient(135deg,#f0e9ff 0%,#e0d6ff 100%);
-    --island-skills:   linear-gradient(135deg,#e0f4fc 0%,#ccebf8 100%);
-    --island-projects: linear-gradient(135deg,#e0f7ef 0%,#cdeee1 100%);
-    --island-ach:      linear-gradient(135deg,#ffecdd 0%,#ffdcc7 100%);
-    --island-contact:  linear-gradient(135deg,#ffe6ef 0%,#ffd6e5 100%);
-    --island-footer:   linear-gradient(135deg,#1b2250 0%,#0e1233 100%);
 
-    --island-shadow: 0 30px 50px -24px rgba(60,80,170,0.40), 0 10px 22px -12px rgba(60,80,170,0.20);
-    --card-shadow:   0 16px 28px -16px rgba(40,50,110,0.32), 0 4px 10px -4px rgba(40,50,110,0.10);
+    --island-shadow: 0 18px 34px -18px rgba(30,40,90,0.28), 0 6px 14px -8px rgba(30,40,90,0.14);
+    --card-shadow:   0 10px 20px -12px rgba(30,40,90,0.26), 0 3px 8px -3px rgba(30,40,90,0.10);
+    --card-bg: #f3f4f8;
     --radius-island: 36px;
     --radius-card: 22px;
 }
@@ -33,7 +26,7 @@ body{
     padding: 96px 0 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
+    background: #e6e8ee;
     color: var(--ink);
 }
 
@@ -113,7 +106,9 @@ header .navbar ul li a:hover{
 
 /*section1 start*/
 .section1{
-    background: var(--island-hero);
+    background-color: #fff;
+    --tint: #dfe7ff;
+    --glow: rgba(90,120,240,0.50);
     min-height: 560px;
     padding: 40px 70px;
     display: flex;
@@ -162,7 +157,9 @@ header .navbar ul li a:hover{
 
 /*section2 start*/
 .section2{
-    background: var(--island-about);
+    background-color: #fff;
+    --tint: #ebe2ff;
+    --glow: rgba(130,90,230,0.48);
     min-height: 560px;
     padding: 40px 70px;
     display: flex;
@@ -226,7 +223,9 @@ header .navbar ul li a:hover{
 
 /*section3 (projects) start*/
 .section3{
-    background: var(--island-projects);
+    background-color: #fff;
+    --tint: #d6f4e8;
+    --glow: rgba(40,170,120,0.46);
     margin-top: 0;
     padding: 56px 24px 40px;
     text-align: center;
@@ -262,7 +261,9 @@ header .navbar ul li a:hover{
 
 /*section5 (achievements) start*/
 .section5{
-    background: var(--island-ach);
+    background-color: #fff;
+    --tint: #ffe6d4;
+    --glow: rgba(235,130,60,0.48);
     padding: 30px 24px 40px;
 }
 .section5 .txt h1,
@@ -325,7 +326,9 @@ header .navbar ul li a:hover{
 
 /*section6 (contact) start*/
 .section6{
-    background: var(--island-contact);
+    background-color: #fff;
+    --tint: #ffdbe8;
+    --glow: rgba(230,80,140,0.46);
     height: auto;
     padding: 30px 24px 56px;
 }
@@ -387,7 +390,9 @@ header .navbar ul li a:hover{
 
 /*footer start*/
 .footer{
-    background: var(--island-footer);
+    background-color: #1b2250;
+    --tint: #27328a;
+    --glow: rgba(60,80,220,0.55);
     height: auto;
     position: relative;
     color: white;
@@ -554,7 +559,7 @@ body.owning .owner-pill{ display:inline-block; }
 body.owning .add-btn{ display:inline-block; }
 
 /* skills island */
-.skillsSection{ background:var(--island-skills); padding:56px 24px 50px; text-align:center; }
+.skillsSection{ background-color:#fff; --tint:#d6f0fb; --glow:rgba(50,150,210,0.48); padding:56px 24px 50px; text-align:center; }
 .skillsGrid{ width:90%; margin:20px auto 0; display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
 .skill-card{ width:120px; background:#fff; border:none; border-radius:20px; padding:18px 10px; position:relative; box-shadow:var(--card-shadow); animation:fadeUp .5s ease both; transition:transform .2s, box-shadow .2s; }
 .skill-card:hover{ transform:translateY(-6px); box-shadow:0 20px 30px -14px rgba(40,100,160,.45); }
@@ -649,3 +654,34 @@ body.owning [data-tkey]:hover{ border-bottom-color:var(--accent); }
 }
 body.owning .edit-img-wrap:hover .resize-handle{ display:block; }
 body.owning .edit-img-wrap img{ cursor: grab; }
+
+
+/* ===================== hover: islands change color + shadow ===================== */
+.section1, .section2, .skillsSection, .section3, .section5, .section6, .footer, header{
+    transition: background-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+.section1:hover, .section2:hover, .skillsSection:hover, .section3:hover, .section5:hover, .section6:hover, .footer:hover{
+    background-color: var(--tint);
+    box-shadow: 0 42px 70px -26px var(--glow), 0 14px 30px -12px var(--glow);
+}
+header:hover{
+    background-color: #eef2ff;
+    box-shadow: 0 26px 44px -20px rgba(90,120,240,0.50), 0 8px 18px -8px rgba(90,120,240,0.30);
+}
+
+/* cards: soft grey on the white island, frosted white while the island is lit, solid white on their own hover */
+.skill-card, .proj-card, .section5 .imgg .cert-card, .contact-item{
+    background-color: var(--card-bg);
+    transition: background-color .3s ease, transform .2s ease, box-shadow .3s ease;
+}
+.skillsSection:hover .skill-card,
+.section3:hover .proj-card,
+.section5:hover .imgg .cert-card,
+.section6:hover .contact-item:not(:hover){
+    background-color: rgba(255,255,255,0.72);
+}
+.skillsSection .skill-card:hover,
+.section3 .proj-card:hover,
+.section5 .imgg .cert-card:hover{
+    background-color: #fff;
+}
