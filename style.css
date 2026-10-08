@@ -107,8 +107,8 @@ header .navbar ul li a:hover{
 /*section1 start*/
 .section1{
     background-color: #fff;
-    --tint: #dfe7ff;
-    --glow: rgba(90,120,240,0.50);
+    --tint: #cfdcff;
+    --glow: rgba(50,100,245,0.50);
     min-height: 560px;
     padding: 40px 70px;
     display: flex;
@@ -158,8 +158,8 @@ header .navbar ul li a:hover{
 /*section2 start*/
 .section2{
     background-color: #fff;
-    --tint: #ebe2ff;
-    --glow: rgba(130,90,230,0.48);
+    --tint: #e2d3ff;
+    --glow: rgba(135,70,235,0.48);
     min-height: 560px;
     padding: 40px 70px;
     display: flex;
@@ -224,8 +224,8 @@ header .navbar ul li a:hover{
 /*section3 (projects) start*/
 .section3{
     background-color: #fff;
-    --tint: #d6f4e8;
-    --glow: rgba(40,170,120,0.46);
+    --tint: #d3f1c6;
+    --glow: rgba(60,170,40,0.46);
     margin-top: 0;
     padding: 56px 24px 40px;
     text-align: center;
@@ -262,8 +262,8 @@ header .navbar ul li a:hover{
 /*section5 (achievements) start*/
 .section5{
     background-color: #fff;
-    --tint: #ffe6d4;
-    --glow: rgba(235,130,60,0.48);
+    --tint: #ffd9b3;
+    --glow: rgba(245,125,10,0.48);
     padding: 30px 24px 40px;
 }
 .section5 .txt h1,
@@ -327,8 +327,8 @@ header .navbar ul li a:hover{
 /*section6 (contact) start*/
 .section6{
     background-color: #fff;
-    --tint: #cdf3ee;
-    --glow: rgba(20,170,150,0.45);
+    --tint: #ffd0c9;
+    --glow: rgba(235,65,55,0.46);
     height: auto;
     padding: 30px 24px 56px;
 }
@@ -391,8 +391,8 @@ header .navbar ul li a:hover{
 /*footer start*/
 .footer{
     background-color: #1b2250;
-    --tint: #27328a;
-    --glow: rgba(60,80,220,0.55);
+    --tint: #3a2a8f;
+    --glow: rgba(110,70,230,0.55);
     height: auto;
     position: relative;
     color: white;
@@ -559,7 +559,7 @@ body.owning .owner-pill{ display:inline-block; }
 body.owning .add-btn{ display:inline-block; }
 
 /* skills island */
-.skillsSection{ background-color:#fff; --tint:#d6f0fb; --glow:rgba(50,150,210,0.48); padding:56px 24px 50px; text-align:center; }
+.skillsSection{ background-color:#fff; --tint:#c3eef3; --glow:rgba(0,160,190,0.48); padding:56px 24px 50px; text-align:center; }
 .skillsGrid{ width:90%; margin:20px auto 0; display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
 .skill-card{ width:120px; background:#fff; border:none; border-radius:20px; padding:18px 10px; position:relative; box-shadow:var(--card-shadow); animation:fadeUp .5s ease both; transition:transform .2s, box-shadow .2s; }
 .skill-card:hover{ transform:translateY(-6px); box-shadow:0 20px 30px -14px rgba(40,100,160,.45); }
