@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" id="themeCss" href="style.css">
+    <script>
+    /* apply saved theme before first paint to avoid a flash */
+    (function(){
+      try{
+        var t = localStorage.getItem('theme');
+        if(!t){ t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
+        document.getElementById('themeCss').setAttribute('href', t === 'dark' ? 'style-dark.css' : 'style.css');
+        document.documentElement.setAttribute('data-theme', t);
+      }catch(e){}
+    })();
+    </script>
     <title>Personal</title>
 </head>
 <body>
@@ -22,6 +33,7 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#achievements">Achievements</a></li>
                 <li><a href="#contact">Contacs</a></li>
+                <li><button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Toggle dark / light"><i class="bi bi-moon-stars-fill"></i></button></li>
                 <li><span class="owner-pill" id="ownerPill">Editing as owner</span></li>
                 <li><button class="login-link" id="loginLink">Owner login</button></li>
             </ul>
@@ -247,6 +259,27 @@
 
 <input type="file" id="siteImageInput" accept="image/*" style="display:none">
 
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var css = document.getElementById('themeCss');
+  if(!btn || !css) return;
+  function current(){ return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+  function paint(){
+    var dark = current() === 'dark';
+    btn.innerHTML = dark ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
+    btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  paint();
+  btn.addEventListener('click', function(){
+    var next = current() === 'dark' ? 'light' : 'dark';
+    css.setAttribute('href', next === 'dark' ? 'style-dark.css' : 'style.css');
+    document.documentElement.setAttribute('data-theme', next);
+    try{ localStorage.setItem('theme', next); }catch(e){}
+    paint();
+  });
+})();
+</script>
 <script type="module" src="script.js"></script>
 </body>
 </html>
