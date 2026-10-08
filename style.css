@@ -327,8 +327,8 @@ header .navbar ul li a:hover{
 /*section6 (contact) start*/
 .section6{
     background-color: #fff;
-    --tint: #ffdbe8;
-    --glow: rgba(230,80,140,0.46);
+    --tint: #fff3bf;
+    --glow: rgba(224,170,20,0.45);
     height: auto;
     padding: 30px 24px 56px;
 }
