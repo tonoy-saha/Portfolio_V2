@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, deleteDoc, updateDoc, arrayUnion, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDdZBseMjk0oyLp_R_vLrQEzmfI_jdtzlA",
@@ -43,6 +43,30 @@ const ICONS = {
 };
 
 function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+function escAttr(s){ return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ---------- project link helpers ---------- */
+// Accepts "github.com/me/app" or a full URL; returns a safe https/http URL or null.
+function cleanUrl(raw){
+  let u = (raw||'').trim(); if(!u) return null;
+  if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  try{
+    const x = new URL(u);
+    if(!x.hostname.includes('.')) return null;
+    return x.href;
+  }catch(e){ return null; }
+}
+function linkLabel(label, url){
+  if(label && label.trim()) return label.trim();
+  try{ return new URL(url).hostname.replace(/^www\./,''); }catch(e){ return 'Link'; }
+}
+function linkIcon(url){
+  let h = ''; try{ h = new URL(url).hostname; }catch(e){}
+  if(/(^|\.)github\.com$/i.test(h)) return 'bi-github';
+  if(/(^|\.)linkedin\.com$/i.test(h)) return 'bi-linkedin';
+  if(/(^|\.)(youtube\.com|youtu\.be)$/i.test(h)) return 'bi-youtube';
+  return 'bi-box-arrow-up-right';
+}
 
 /* ---------- rendering ---------- */
 function renderSkills(){
@@ -66,9 +90,22 @@ function renderProjects(){
     const el = document.createElement('div'); el.className='proj-card';
     const thumb = p.image ? `<img src="${p.image}" alt="${esc(p.title)}">` : '';
     const icon = p.image ? '' : `<i class="bi ${esc(p.icon||'bi-code-slash')}"></i>`;
+    const links = Array.isArray(p.links) ? p.links : [];
+    const linksHtml = links.map((l,i)=>
+      `<span class="proj-link-wrap"><a class="proj-link" href="${escAttr(l.url)}" target="_blank" rel="noopener noreferrer"><i class="bi ${linkIcon(l.url)}"></i>${esc(l.label)}</a><button class="link-x" data-i="${i}" title="Remove link" type="button">×</button></span>`
+    ).join('');
     el.innerHTML = `<button class="del" data-id="${p.id}">×</button>${thumb}${icon}
-      <h1>${esc(p.title)}</h1><p>${esc(p.desc)}</p>`;
+      <h1>${esc(p.title)}</h1><p>${esc(p.desc)}</p>
+      <div class="proj-links${links.length?' has-links':''}">${linksHtml}<button class="add-link-btn" type="button">+ Link</button></div>`;
     el.querySelector('.del').onclick = ()=> deleteDoc(doc(db,'projects',p.id));
+    el.querySelector('.add-link-btn').onclick = ()=> openLinkModal(p.id);
+    el.querySelectorAll('.link-x').forEach(b=>{
+      b.onclick = ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        const i = Number(b.dataset.i);
+        updateDoc(doc(db,'projects',p.id), {links: links.filter((_,k)=>k!==i)});
+      };
+    });
     grid.appendChild(el);
   });
 }
@@ -146,10 +183,22 @@ document.getElementById('skSave').onclick = async ()=>{
 };
 
 /* ---------- project form ---------- */
+function addLinkRow(label='', url=''){
+  const row = document.createElement('div'); row.className='link-row';
+  row.innerHTML = `<input type="text" class="lr-label" placeholder="Text (e.g. GitHub)"><input type="text" class="lr-url" placeholder="https://…"><button type="button" class="link-row-x" title="Remove">×</button>`;
+  row.querySelector('.lr-label').value = label;
+  row.querySelector('.lr-url').value = url;
+  row.querySelector('.link-row-x').onclick = ()=> row.remove();
+  document.getElementById('prLinks').appendChild(row);
+}
+document.getElementById('prAddLinkRow').onclick = ()=> addLinkRow();
+
 document.getElementById('addProject').onclick = ()=>{
   document.getElementById('prIcon').value='bi-code-slash';
   document.getElementById('prTitle').value=''; document.getElementById('prDesc').value='';
   document.getElementById('prImage').value='';
+  document.getElementById('prLinks').innerHTML=''; addLinkRow();
+  document.getElementById('prErr').textContent='';
   document.getElementById('projectModalBack').classList.add('show');
 };
 document.getElementById('prCancel').onclick = ()=> document.getElementById('projectModalBack').classList.remove('show');
@@ -159,13 +208,44 @@ document.getElementById('prSave').onclick = async ()=>{
   const icon = document.getElementById('prIcon').value.trim() || 'bi-code-slash';
   const desc = document.getElementById('prDesc').value.trim();
   const file = document.getElementById('prImage').files[0];
+
+  const links = []; let badLink = false;
+  document.querySelectorAll('#prLinks .link-row').forEach(row=>{
+    const raw = row.querySelector('.lr-url').value.trim();
+    if(!raw) return;                       // empty row, skip
+    const url = cleanUrl(raw);
+    if(!url){ badLink = true; return; }
+    links.push({ label: linkLabel(row.querySelector('.lr-label').value, url), url });
+  });
+  if(badLink){ document.getElementById('prErr').textContent = 'One of the links is not a valid web address (e.g. github.com/you/app).'; return; }
+
   let image = null;
   if(file){
     if(file.size > 700000){ alert('That image is a bit large (keep it under ~700KB). Saving without the image — try a smaller file.'); }
     else { image = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
   }
-  await addDoc(collection(db,'projects'), {title, icon, desc, image, order: Date.now()});
+  await addDoc(collection(db,'projects'), {title, icon, desc, image, links, order: Date.now()});
   document.getElementById('projectModalBack').classList.remove('show');
+};
+
+/* ---------- add a link to an existing project ---------- */
+let linkTargetId = null;
+function openLinkModal(id){
+  linkTargetId = id;
+  document.getElementById('lkLabel').value=''; document.getElementById('lkUrl').value='';
+  document.getElementById('lkErr').textContent='';
+  document.getElementById('linkModalBack').classList.add('show');
+}
+document.getElementById('lkCancel').onclick = ()=> document.getElementById('linkModalBack').classList.remove('show');
+document.getElementById('linkModalBack').addEventListener('click', e=>{ if(e.target.id==='linkModalBack') e.target.classList.remove('show'); });
+document.getElementById('lkSave').onclick = async ()=>{
+  const url = cleanUrl(document.getElementById('lkUrl').value);
+  if(!url){ document.getElementById('lkErr').textContent = 'Enter a valid web address (e.g. github.com/you/app).'; return; }
+  const label = linkLabel(document.getElementById('lkLabel').value, url);
+  try{
+    await updateDoc(doc(db,'projects',linkTargetId), {links: arrayUnion({label, url})});
+    document.getElementById('linkModalBack').classList.remove('show');
+  }catch(e){ document.getElementById('lkErr').textContent = 'Could not save the link. Make sure you are logged in as owner.'; }
 };
 
 /* ---------- certificate form ---------- */

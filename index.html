@@ -195,9 +195,30 @@
     <label>Project image (optional)</label>
     <input type="file" id="prImage" accept="image/*">
     <div class="hint">Keep it under ~700KB — a compressed screenshot around 800–1000px wide works well.</div>
+    <label>Links (optional)</label>
+    <div id="prLinks"></div>
+    <button type="button" class="btn-ghost add-link-row" id="prAddLinkRow">+ Add a link</button>
+    <div class="hint">Shown as buttons under the project, e.g. GitHub or Live demo. Leave the text blank to use the site name.</div>
+    <div class="err" id="prErr"></div>
     <div class="modal-actions">
       <button class="btn-ghost" id="prCancel">Cancel</button>
       <button class="btn-primary" id="prSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD LINK TO AN EXISTING PROJECT -->
+<div class="modal-back" id="linkModalBack">
+  <div class="modal">
+    <h3>Add link</h3>
+    <div class="err" id="lkErr"></div>
+    <label>Button text</label>
+    <input type="text" id="lkLabel" placeholder="e.g. GitHub, Live demo">
+    <label>URL</label>
+    <input type="text" id="lkUrl" placeholder="https://github.com/you/project">
+    <div class="modal-actions">
+      <button class="btn-ghost" id="lkCancel">Cancel</button>
+      <button class="btn-primary" id="lkSave">Add link</button>
     </div>
   </div>
 </div>
