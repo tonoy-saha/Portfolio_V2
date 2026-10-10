@@ -1,4 +1,9 @@
-
+/* ===================================================================
+   Floating-island theme
+   Grey page  ->  every section is a white island that lights up in its own color on hover that floats
+   above it (rounded corners + layered shadow). Cards inside each island
+   are white so the details pop against the island color.
+   =================================================================== */
 :root{
     --accent:#7c99ff;
     --accent-deep:#4a63d6;

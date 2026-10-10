@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
     <link rel="stylesheet" id="themeCss" href="style.css">
     <link rel="stylesheet" href="effects.css">
+    <link rel="stylesheet" href="mobile.css">
     <script>
     /* apply saved theme before first paint to avoid a flash */
     (function(){
@@ -36,11 +37,15 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#achievements">Achievements</a></li>
-                <li><a href="#contact">Contacs</a></li>
-                <li><button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Toggle dark / light"><i class="bi bi-moon-stars-fill"></i></button></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="li-theme"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Toggle dark / light"><i class="bi bi-moon-stars-fill"></i></button></li>
                 <li><span class="owner-pill" id="ownerPill">Editing as owner</span></li>
                 <li><button class="login-link" id="loginLink">Owner login</button></li>
             </ul>
+        </div>
+        <div class="header-actions">
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Toggle dark / light"><i class="bi bi-moon-stars-fill"></i></button>
+            <button class="nav-burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><i class="bi bi-list"></i></button>
         </div>
     </header>
    <!--section1 start-->
@@ -313,22 +318,26 @@
 
 <script>
 (function(){
-  var btn = document.getElementById('themeToggle');
+  var btns = document.querySelectorAll('.theme-toggle');
   var css = document.getElementById('themeCss');
-  if(!btn || !css) return;
+  if(!btns.length || !css) return;
   function current(){ return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
   function paint(){
     var dark = current() === 'dark';
-    btn.innerHTML = dark ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
-    btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    btns.forEach(function(btn){
+      btn.innerHTML = dark ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
+      btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    });
   }
   paint();
-  btn.addEventListener('click', function(){
-    var next = current() === 'dark' ? 'light' : 'dark';
-    css.setAttribute('href', next === 'dark' ? 'style-dark.css' : 'style.css');
-    document.documentElement.setAttribute('data-theme', next);
-    try{ localStorage.setItem('theme', next); }catch(e){}
-    paint();
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var next = current() === 'dark' ? 'light' : 'dark';
+      css.setAttribute('href', next === 'dark' ? 'style-dark.css' : 'style.css');
+      document.documentElement.setAttribute('data-theme', next);
+      try{ localStorage.setItem('theme', next); }catch(e){}
+      paint();
+    });
   });
 })();
 </script>

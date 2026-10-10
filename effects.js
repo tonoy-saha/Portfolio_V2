@@ -1,3 +1,4 @@
+/* effects.js — animations & graphics. Independent of script.js (Firebase/editing). */
 (function () {
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -268,4 +269,19 @@
   });
   pd.addEventListener('click', function (e) { if (e.target === pd || e.target.closest('.pd-x')) closePd(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePd(); });
+  /* ---------- mobile hamburger nav ---------- */
+  var hdr = $('header'), burger = $('#navBurger');
+  if (hdr && burger) {
+    var setNav = function (open) {
+      hdr.classList.toggle('nav-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var ic = $('i', burger);
+      if (ic) ic.className = open ? 'bi bi-x-lg' : 'bi bi-list';
+    };
+    burger.addEventListener('click', function (e) { e.stopPropagation(); setNav(!hdr.classList.contains('nav-open')); });
+    hdr.addEventListener('click', function (e) { if (e.target.closest('.navbar a, .navbar button')) setNav(false); });
+    document.addEventListener('click', function (e) { if (!hdr.contains(e.target)) setNav(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setNav(false); });
+    window.addEventListener('resize', function () { if (window.innerWidth > 960) setNav(false); });
+  }
 })();

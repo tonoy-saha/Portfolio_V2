@@ -1,3 +1,8 @@
+/* ===================================================================
+   effects.css — modern animations & graphics, shared by light + dark.
+   Loads AFTER style.css / style-dark.css (see index.html).
+   Colors come from the variables below, switched by html[data-theme].
+   =================================================================== */
 :root{
     --fx-rgb: 74,99,214;
     --fx-gold: #f0a81c;
@@ -146,7 +151,6 @@ body.owning .skills-marquee{ display:none; }
 .skill-card::before, .proj-card::before, .cert-card::before, .contact-item::before, .stat::before{
     padding:1.5px;
     background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), var(--fx-spot), transparent 65%);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor; mask-composite: exclude;
 }

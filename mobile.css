@@ -1,0 +1,149 @@
+/* ===================================================================
+   mobile.css — phone & tablet fixes. Loads LAST (after effects.css).
+   Works for both light and dark themes (uses the shared variables).
+   =================================================================== */
+
+/* never allow sideways scrolling */
+body{ overflow-x:hidden; }
+
+/* header mobile actions (theme toggle + burger) are hidden on desktop */
+.header-actions{ display:none; align-items:center; gap:10px; }
+.nav-burger{
+    width:38px; height:38px; border:none; border-radius:50%; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; font-size:20px;
+    background:var(--card-bg, #eef2ff); color:var(--ink, #1b2250);
+    transition:background .25s ease, color .25s ease, transform .25s ease;
+}
+.nav-burger:hover, .nav-burger:active{ background:var(--accent); color:#fff; }
+
+/* ---------------------------------------------------------------
+   <= 960px : collapse the long nav into a hamburger dropdown
+   --------------------------------------------------------------- */
+@media (max-width: 960px){
+    header{ height:56px; min-height:56px; padding:0 12px 0 14px; border-radius:999px; flex-wrap:nowrap; }
+    header .logo img{ height:30px; }
+    .header-actions{ display:flex; margin-left:auto; }
+    header .navbar li.li-theme{ display:none; }
+
+    header .navbar{
+        display:none; position:absolute; top:calc(100% + 10px); left:0; right:0; margin:0;
+        padding:10px; border-radius:24px; box-sizing:border-box;
+        background:var(--fx-modal, #fff);
+        box-shadow:0 26px 50px -18px rgba(0,0,0,.55), inset 0 0 0 1px var(--fx-line, rgba(0,0,0,.08));
+        max-height:calc(100vh - 100px); overflow-y:auto;
+        font-size:13px;
+    }
+    header.nav-open .navbar{ display:block; animation: navDrop .25s ease both; }
+    header .navbar ul{ flex-direction:column; align-items:stretch; flex-wrap:nowrap; }
+    header .navbar ul li{ padding:0; }
+    header .navbar ul li a{
+        display:block; padding:14px 16px; border-radius:14px; font-size:13px;
+    }
+    header .navbar ul li a:hover, header .navbar ul li a:active{ background:rgba(var(--fx-rgb, 74,99,214), .12); }
+    header .login-link{ display:block; width:100%; text-align:left; padding:14px 16px; font-size:12px; }
+    header .owner-pill{ margin:6px 16px; }
+}
+@keyframes navDrop{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
+
+/* ---------------------------------------------------------------
+   <= 900px : tablets + phones
+   --------------------------------------------------------------- */
+@media (max-width: 900px){
+    body{ padding-top:84px; background-attachment:scroll; }
+    section{ scroll-margin-top:86px; }
+
+    /* lighter on battery + GPU */
+    html[data-theme="dark"] .skill-card, html[data-theme="dark"] .proj-card,
+    html[data-theme="dark"] .cert-card, html[data-theme="dark"] .stat,
+    html[data-theme="dark"] .tl-card, html[data-theme="dark"] .contact-item{
+        -webkit-backdrop-filter:none; backdrop-filter:none;
+        background-color:rgba(255,255,255,.06) !important;
+    }
+    .hero-blobs span{ filter:blur(48px); }
+    .hero-blobs .b1{ width:260px; height:260px; }
+    .hero-blobs .b2{ width:280px; height:280px; }
+    .hero-blobs .b3{ display:none; }
+
+    /* hero + about: centred, comfortable reading */
+    .section1, .section2{ gap:22px; padding:34px 20px; }
+    .half1 h3, .half4 h3{ font-size:13px; }
+    .half1 p, .half4 p{ font-size:15px; max-width:100%; }
+    .half2{ justify-content:center; }
+    .half2 img, .half3 img{ width:100%; max-width:380px; margin:0 auto; display:block; }
+
+    /* section headings: allow wrapping, no squashed line-height */
+    .firsttext h1{ font-size:28px; line-height:1.2; }
+    .firsttext p{ width:auto; max-width:100%; padding-top:14px; font-size:14px; line-height:1.6; }
+    .section3{ padding:40px 14px 30px; }
+    .skillsSection{ padding:40px 12px 34px; }
+    .section5{ padding:20px 14px 30px; }
+    .section5 .txt h1{ font-size:26px; margin-top:20px; }
+    .section6{ padding:20px 14px 40px; }
+    .section6 .txt2 h1{ font-size:26px; }
+
+    /* stats: keep 3 across, just smaller */
+    .statsStrip{ padding:18px 12px; }
+    .stats-grid{ grid-template-columns:repeat(3, 1fr); gap:10px; }
+    .stat{ padding:16px 6px; border-radius:16px; }
+    .stat-num{ font-size:28px; }
+    .stat-label{ font-size:9.5px; letter-spacing:.8px; }
+
+    /* cards */
+    .proj-grid{ grid-template-columns:1fr; gap:18px; }
+    .proj-card img{ height:190px; }
+    .skillsGrid{ width:100%; gap:12px; }
+    .skill-card{ width:96px; padding:14px 8px; border-radius:16px; }
+    .mq-set .skill-card{ margin-right:14px; }
+    .section5 .imgg figure{ height:200px; }
+
+    /* journey timeline */
+    .journey{ padding:40px 14px 34px; }
+    .timeline{ padding-left:34px; margin-top:26px; }
+    .timeline::before, .timeline::after{ left:10px; }
+    .tl-dot{ left:-32px; top:22px; }
+    .tl-card{ padding:16px 18px; }
+    .tl-card:hover{ transform:none; }
+
+    /* footer: the inline 480px paragraph width was overflowing phones */
+    .footer{ padding:34px 20px; }
+    .footer .foot{ gap:26px; }
+    .footer .foot .foot1{ width:100%; }
+    .footer .foot .foot1 p{ width:auto !important; max-width:100%; }
+    .footer .foot .foot1 input{ width:calc(100% - 78px); box-sizing:border-box; padding:11px 14px; }
+    .footer .foot .foot1 button{ padding:9px 14px; }
+    .footer .foot .foot1 i{ font-size:20px; padding:6px 8px 6px 0; }
+
+    /* pop-ups */
+    .modal-back{ padding:12px; }
+    .modal{ padding:20px; border-radius:20px; }
+    .pd-modal{ padding:20px; border-radius:22px; }
+    .pd-media img{ max-height:230px; }
+    .scroll-progress{ height:2px; }
+}
+
+/* ---------------------------------------------------------------
+   <= 600px : phones
+   --------------------------------------------------------------- */
+@media (max-width: 600px){
+    header, .statsStrip, .journey,
+    .section1, .section2, .skillsSection, .section3, .section5, .section6, .footer{ width:calc(100% - 20px); }
+    header{ top:8px; }
+    body{ padding-top:76px; }
+    .section1, .section2, .skillsSection, .section3, .section5, .section6, .statsStrip, .journey, .footer{
+        border-radius:24px; margin-bottom:14px;
+    }
+    .half1 h1, .half4 h1{ font-size:32px; }
+    .typed-line{ font-size:16px; }
+    .contact-item{ padding:16px; }
+    .contact-item p{ word-break:break-word; }
+    .pl-mark{ font-size:38px; }
+}
+
+/* very small phones */
+@media (max-width: 380px){
+    .half1 h1, .half4 h1{ font-size:28px; }
+    .stat-num{ font-size:24px; }
+    .stat-label{ font-size:8.5px; }
+    .skill-card{ width:88px; }
+    .firsttext h1{ font-size:25px; }
+}
