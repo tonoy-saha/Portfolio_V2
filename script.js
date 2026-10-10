@@ -46,7 +46,6 @@ function esc(s){ const d=document.createElement('div'); d.textContent=s||''; ret
 function escAttr(s){ return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 /* ---------- project link helpers ---------- */
-// Accepts "github.com/me/app" or a full URL; returns a safe https/http URL or null.
 function cleanUrl(raw){
   let u = (raw||'').trim(); if(!u) return null;
   if(!/^https?:\/\//i.test(u)) u = 'https://' + u;

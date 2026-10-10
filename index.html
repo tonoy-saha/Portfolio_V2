@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
     <link rel="stylesheet" id="themeCss" href="style.css">
+    <link rel="stylesheet" href="effects.css">
     <script>
     /* apply saved theme before first paint to avoid a flash */
     (function(){
@@ -14,12 +15,14 @@
         if(!t){ t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
         document.getElementById('themeCss').setAttribute('href', t === 'dark' ? 'style-dark.css' : 'style.css');
         document.documentElement.setAttribute('data-theme', t);
+        if(sessionStorage.getItem('seen')){ document.documentElement.classList.add('skip-loader'); } else { sessionStorage.setItem('seen','1'); }
       }catch(e){}
     })();
     </script>
     <title>Personal</title>
 </head>
 <body>
+    <div class="page-loader" id="pageLoader" aria-hidden="true"><div class="pl-mark">TS</div><div class="pl-bar"></div></div>
     <header>
         <div class="logo edit-img-wrap" data-key="logo">
             <img id="logoImg" src="img1.jpg" alt="">
@@ -29,6 +32,7 @@
             <ul>
                 <li><a href="#" style="color: #7c99ff;">Home</a></li>
                 <li><a href="#">About</a></li>
+                <li><a href="#journey">Journey</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#achievements">Achievements</a></li>
@@ -41,9 +45,12 @@
     </header>
    <!--section1 start-->
     <section class="section1">
+        <div class="hero-blobs" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+        <canvas id="heroCanvas" aria-hidden="true"></canvas>
         <div class="half1 reveal">
             <h3 data-tkey="hero_eyebrow">This is me</h3>
             <h1 data-tkey="hero_name">Tonoy Saha</h1>
+            <div class="typed-line"><span id="typedText" data-roles="CSE Student|Software Builder|Problem Solver"></span><span class="caret"></span></div>
             <p data-tkey="hero_desc">You will begin to realise why this exercise is called the Dickens Pattern with reference to the ghost showing Scrooge some different futures.</p>
         </div>
         <div class="half2 reveal edit-img-wrap" data-key="hero">
@@ -52,6 +59,16 @@
         </div>
     </section>
       <!--section1 end-->
+
+      <!--stats start-->
+      <section class="statsStrip reveal">
+        <div class="stats-grid">
+            <div class="stat"><div class="stat-num" data-count="projects">0</div><div class="stat-label">Projects</div></div>
+            <div class="stat"><div class="stat-num" data-count="skills">0</div><div class="stat-label">Technologies</div></div>
+            <div class="stat"><div class="stat-num" data-count="certs">0</div><div class="stat-label">Certificates</div></div>
+        </div>
+      </section>
+      <!--stats end-->
 
       <!--section2 start-->
      <section class="section2">
@@ -70,6 +87,41 @@
 
      </section>
         <!--section2 end-->
+
+        <!--journey start-->
+        <section class="journey" id="journey">
+            <div class="firsttext reveal">
+                <h1 data-tkey="journey_title">My Journey</h1>
+                <p data-tkey="journey_desc">The milestones that shaped how I learn and build.</p>
+            </div>
+            <div class="timeline">
+                <div class="tl-item reveal">
+                    <span class="tl-dot"></span>
+                    <div class="tl-card">
+                        <span class="tl-date" data-tkey="tl1_date">Year – Present</span>
+                        <h3 data-tkey="tl1_title">B.Sc. in Computer Science &amp; Engineering</h3>
+                        <p data-tkey="tl1_desc">Studying at Daffodil International University.</p>
+                    </div>
+                </div>
+                <div class="tl-item reveal">
+                    <span class="tl-dot"></span>
+                    <div class="tl-card">
+                        <span class="tl-date" data-tkey="tl2_date">Add a date</span>
+                        <h3 data-tkey="tl2_title">Building Projects</h3>
+                        <p data-tkey="tl2_desc">Individual and group projects across circuits, data structures and software development.</p>
+                    </div>
+                </div>
+                <div class="tl-item reveal">
+                    <span class="tl-dot"></span>
+                    <div class="tl-card">
+                        <span class="tl-date" data-tkey="tl3_date">Add a date</span>
+                        <h3 data-tkey="tl3_title">Certificates &amp; Milestones</h3>
+                        <p data-tkey="tl3_desc">Add a short line about your next milestone here.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--journey end-->
 
         <!--skills start-->
     <section class="skillsSection" id="skills">
@@ -280,6 +332,7 @@
   });
 })();
 </script>
+<script src="effects.js" defer></script>
 <script type="module" src="script.js"></script>
 </body>
 </html>
