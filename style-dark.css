@@ -1,10 +1,4 @@
-/* ===================================================================
-   Floating-island theme — DARK
-   Near-black page  ->  every section is a deep navy island that glows in
-   its own color on hover. Cards inside are slightly lighter slate so the
-   details pop. Accents: electric blue + warm gold.
-   Layout is identical to the light version; only colors/shadows changed.
-   =================================================================== */
+/* Floating-island theme — DARK */
 :root{
     color-scheme: dark;
 
@@ -709,7 +703,7 @@ header:hover{
     box-shadow: 0 26px 44px -20px rgba(90,120,240,0.55), 0 8px 18px -8px rgba(90,120,240,0.35), inset 0 0 0 1px rgba(255,255,255,0.10);
 }
 
-/* cards: slate on the dark island, softly frosted while the island is lit, brighter on their own hover */
+/* cards */
 .skill-card, .proj-card, .section5 .imgg .cert-card, .contact-item{
     background-color: var(--card-bg);
     transition: background-color .3s ease, transform .2s ease, box-shadow .3s ease;

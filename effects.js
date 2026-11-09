@@ -49,7 +49,7 @@
     }
   }
 
-  /* ---------- spotlight border + 3D tilt (event delegation: works on dynamic cards) ---------- */
+  /* spotlight border + 3D tilt */
   var SPOT = '.skill-card,.proj-card,.cert-card,.contact-item,.stat';
   var TILT = '.proj-card,.cert-card,.contact-item,.stat';
   document.addEventListener('pointermove', function (e) {

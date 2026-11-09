@@ -1,7 +1,4 @@
-/* ===================================================================
-   mobile.css — phone & tablet fixes. Loads LAST (after effects.css).
-   Works for both light and dark themes (uses the shared variables).
-   =================================================================== */
+/* mobile.css */
 
 /* never allow sideways scrolling */
 body{ overflow-x:hidden; }
@@ -16,9 +13,7 @@ body{ overflow-x:hidden; }
 }
 .nav-burger:hover, .nav-burger:active{ background:var(--accent); color:#fff; }
 
-/* ---------------------------------------------------------------
-   <= 960px : collapse the long nav into a hamburger dropdown
-   --------------------------------------------------------------- */
+/* <= 960px : collapse the long nav into a hamburger dropdown */
 @media (max-width: 960px){
     header{ height:56px; min-height:56px; padding:0 12px 0 14px; border-radius:999px; flex-wrap:nowrap; }
     header .logo img{ height:30px; }
@@ -45,9 +40,7 @@ body{ overflow-x:hidden; }
 }
 @keyframes navDrop{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
 
-/* ---------------------------------------------------------------
-   <= 900px : tablets + phones
-   --------------------------------------------------------------- */
+/* <= 900px : tablets + phones */
 @media (max-width: 900px){
     body{ padding-top:84px; background-attachment:scroll; }
     section{ scroll-margin-top:86px; }
@@ -121,9 +114,7 @@ body{ overflow-x:hidden; }
     .scroll-progress{ height:2px; }
 }
 
-/* ---------------------------------------------------------------
-   <= 600px : phones
-   --------------------------------------------------------------- */
+/* <= 600px : phones */
 @media (max-width: 600px){
     header, .statsStrip, .journey,
     .section1, .section2, .skillsSection, .section3, .section5, .section6, .footer{ width:calc(100% - 20px); }

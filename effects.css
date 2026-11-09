@@ -1,8 +1,4 @@
-/* ===================================================================
-   effects.css — modern animations & graphics, shared by light + dark.
-   Loads AFTER style.css / style-dark.css (see index.html).
-   Colors come from the variables below, switched by html[data-theme].
-   =================================================================== */
+/* effects.css */
 :root{
     --fx-rgb: 74,99,214;
     --fx-gold: #f0a81c;
@@ -34,9 +30,7 @@ html[data-theme="dark"]{
     --fx-tint-b:#1d1a44; --fx-glow-b: rgba(130,100,255,.40);
 }
 
-/* ---------- fix: keep hover lift working on animated cards ----------
-   The old `animation ... both` froze cards at translateY(0) and blocked
-   the hover transform. `backwards` still plays the entrance + stagger. */
+/* fix: keep hover lift working on animated cards */
 .skill-card, .proj-card, .cert-card{ animation-fill-mode: backwards !important; }
 
 /* ---------- intro loader (plays once per browser session) ---------- */
